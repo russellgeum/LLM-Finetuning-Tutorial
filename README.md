@@ -2,8 +2,8 @@
 이 레포지토리는 대형 언어 모델(LLM)을 파인튜닝하고 추론하는 방법을 설명하는 튜토리얼입니다.  
 해당 레포지토리는 Google Gemma-2B을 한국어 튜닝한 beomi-gemma-2b 그리고 고려대학교 NLP 연구실의 kullm-v2를 기본 세팅으로 합니다. (EEVE-10.8B는 구현하지 않음)
 
-- 모델: [Huggingface-beomi-gemma-ko-2b](https://huggingface.co/beomi/gemma-ko-2b)
-- 데이터셋: [Huggingface-NLPAI-kullm-v2](https://huggingface.co/datasets/nlpai-lab/kullm-v2)
+- [Huggingface-beomi-gemma-ko-2b](https://huggingface.co/beomi/gemma-ko-2b)
+- [Huggingface-NLPAI-kullm-v2](https://huggingface.co/datasets/nlpai-lab/kullm-v2)
 
 ## 기본 폴더 구조
 ```

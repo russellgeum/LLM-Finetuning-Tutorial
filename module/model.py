@@ -211,7 +211,9 @@ class LLMInference(Model):
         self.model = self.load_model(mode=False, quantization_config=None)
 
         # 어댑터 모델을 로드하고 머지
-        if adapter:
+        if adapter is None:
+            self.model = self.model
+        else:
             self.model = self.merge_adapter(adapter)
 
         # 인퍼런스를 위한 쿼리 인스턴스 초기화
@@ -220,3 +222,67 @@ class LLMInference(Model):
     def run(self, prompt: str) -> str:
         # 프롬프트를 입력받아서 응답 생성
         return self.query.generate(prompt)
+
+
+# =================================================================================================
+# class LLMEvaluation(Model):
+# Purpose: This class defines the evaluation process.
+# =================================================================================================
+class LLMEvaluation(Model):
+    def __init__(self, 
+                 adapter: str, 
+                 max_new_tokens: int,
+                 model_type: str,
+                 **kwargs):
+        super().__init__(**kwargs)
+        """
+        1. 토크나이저를 로드합니다.
+        2. 기본 모델을 로드합니다.
+        3. 어댑터 모델을 로드하고 머지합니다.
+        4. 쿼리 인스턴스를 초기화합니다.
+        5. 인퍼런스에서는 임의 문장을 입력하면, 해당 문장에 대한 답변을 생성합니다.
+        """
+        # 데이터셋 로드
+        dataset = self.load_dataset()
+        self.train_dataset, self.test_dataset = dataset.get_split_dataset()
+
+        # 토크나이저 로드
+        self.tokenizer = self.load_tokenizer()
+        # 프롬프트 제네레이터 로드
+        self.generator  = self.load_generator()
+
+        # 기본 모델 로드
+        self.model = self.load_model(mode=False, quantization_config=None)
+
+        # 어댑터 모델을 로드하고 머지
+        if adapter is None:
+            self.model = self.model
+        else:
+            self.model = self.merge_adapter(adapter)
+
+    def run(self):
+        self.model.eval()
+        total_loss = 0.0
+        num_batches = 0
+
+        # Evaluate the model on the test dataset
+        for idx in tqdm(range(0, len(self.test_dataset), 1)): 
+            batch  = self.test_dataset[idx:idx+1]
+            batch  = self.generator(batch)
+            inputs = self.tokenizer(batch, return_tensors="pt", padding=True, truncation=True)
+
+            input_ids      = inputs.input_ids.to("cuda")
+            attention_mask = inputs.attention_mask.to("cuda")
+
+            # Forward pass
+            with torch.no_grad():
+                outputs = self.model(input_ids, attention_mask=attention_mask, labels=input_ids)
+                loss    = outputs.loss
+                total_loss  += loss.cpu().item()
+                num_batches += 1
+
+        avg_loss   = total_loss / num_batches
+        perpleixty = torch.exp(torch.tensor(avg_loss)).cpu().item()
+
+        print(f"Average loss: {avg_loss}")
+        print(f"Perplexity: {perpleixty}")

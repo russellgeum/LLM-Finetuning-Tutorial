@@ -1,5 +1,6 @@
 import os
 import json
+from tqdm import tqdm
 from typing import List
 from typing import Union
 import gradio
@@ -201,8 +202,8 @@ class PromptGenerator:
         prompt_list = []
         for idx in range(len(dataset["instruction"])):
             instruction = dataset["instruction"][idx]
-            inputs = dataset["input"][idx]
-            outputs = dataset["output"][idx]
+            inputs      = dataset["input"][idx]
+            outputs     = dataset["output"][idx]
 
             template = r"""<bos><start_of_turn>user
 {} {}<end_of_turn>
@@ -217,7 +218,7 @@ class PromptGenerator:
     def __custom_generate_gemma_prompt(dataset):
         prompt_list = []
         for idx in range(len(dataset["prompt"])):
-            prompt = dataset["prompt"][idx]
+            prompt   = dataset["prompt"][idx]
             response = dataset["response"][idx]
 
             template = r"""<bos><start_of_turn>user

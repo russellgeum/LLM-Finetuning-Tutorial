@@ -1,5 +1,4 @@
 import argparse
-import torch
 import gradio as gr
 from module.model import *
 from module.configuration import *

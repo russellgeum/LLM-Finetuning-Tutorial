@@ -1,12 +1,13 @@
 # LLM-Finetuning-Tutorial
-이 레포지토리는 대형 언어 모델(LLM)을 파인튜닝하고 추론하는 방법을 설명하는 튜토리얼입니다.
-해당 레포지토리는 Google Gemma-2B을 한국어 튜닝한 beomi-gemma-2b 그리고 고려대학교 NLP 연구실의 kullm-v2를 기본 세팅으로 합니다.
-(EEVE-10.8B 흔적이 있지만, 구현하지 않았습니다.)
+This repository is a tutorial explaining how to fine-tune and infer with large language models (LLM). 
+The repository uses beomi-gemma-2b, a Korean-tuned version of Google's Gemma-2B, 
+and KULLM-V2 from the Korea University NLP lab as the default settings. 
+(There are traces of EEVE-10.8B, but it has not been implemented.)
 - [Huggingface-NLPAI-kullm-v2](https://huggingface.co/datasets/nlpai-lab/kullm-v2)
 - [Huggingface-beomi-gemma-ko-2b](https://huggingface.co/beomi/gemma-ko-2b)
 
 
-## 기본 폴더 구조
+## Folder Structure
 ```
 LLM-Finetuning-Tutorial/
     ├── dataset/
@@ -26,39 +27,37 @@ LLM-Finetuning-Tutorial/
 ```
 
 ## Requirements
-프로젝트를 실행하기 위해 필요한 패키지는 `scripts/requirements.sh` 파일에 명시되어 있습니다.  
-이를 설치하려면 다음 명령어를 실행하세요:
-
+The packages required to run the project are listed in the scripts/requirements.sh file. To install them, run the following command:
 ```sh
 bash scripts/requirements.sh
 ```
 
 ## Usage
-### 모델 학습  
-모델을 학습시키리면 'run-training.py' 스크립트를 실행합니다.
+### Model Training  
+To train the model, run the run-training.py script.
 ```sh
 python run-training.py
 ```
 
-### 모델 추론
-학습된 모델을 사용하여 추론을 수행하려면 run-inference.py 스크립트를 실행합니다.  
+### Model Inference
+To perform inference using the trained model, run the run-inference.py script.
 ```sh
 python run-inference.py
 ```
 
-### 모델 평가
-모델을 평가하려면 run-evaluation.py 스크립트를 실행합니다.  
+### Model Evaluation
+To evaluate the model, run the run-evaluation.py script.
 ```sh
 (base) python run-evaluation.py
 (custom) python run-evaluation.py --adapter "model/{your-custom-model-path}"
 ```
 |          | Loss     | Perplexity |
 |----------|----------|----------|
-| base     | 1.867    | 6.47     |
-| custom   | 1.760    | 5.81     |
+| Gemma-2B-Ko          | 1.867    | 6.47     |
+| Gemma-2B-Ko-custom   | 1.760    | 5.81     |
 
 ## Example
-아래 예시는 kullm-v2가 아닌, 직접 구성한 3만 여건의 Instruction-Tuning 데이터셋으로 학습한 결과입니다. 
+The following example shows the results of training on a custom instruction-tuning dataset with 30,000 instances, rather than kullm-v2.
 ### Gemma-2B Base
 ```
 질문: K-9 자주포에 대해서 알려주세요.

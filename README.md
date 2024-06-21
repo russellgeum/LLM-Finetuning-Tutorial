@@ -47,7 +47,6 @@ python run-inference.py
 
 ### 모델 평가
 모델을 평가하려면 run-evaluation.py 스크립트를 실행합니다.  
-현재 모델 평가는 아직 구현되지 않았습니다.
 ```sh
-python run-evlaution.py
+python run-evaluation.py
 ```

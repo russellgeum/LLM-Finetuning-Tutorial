@@ -99,7 +99,7 @@ class Model:
                 self.model,
                 quantization_config=None,
                 use_cache=True, # 추론 성능 향상
-                cache_dir="model/gemma-2b/model",
+                cache_dir=self.cache_dir,
                 torch_dtype=torch.float16,
                 device_map='auto'
             )
@@ -204,6 +204,7 @@ class LLMInference(Model):
         4. 쿼리 인스턴스를 초기화합니다.
         5. 인퍼런스에서는 임의 문장을 입력하면, 해당 문장에 대한 답변을 생성합니다.
         """
+        print(self.cache_dir)
         # 토크나이저 로드
         self.tokenizer = self.load_tokenizer()
 

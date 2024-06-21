@@ -251,13 +251,15 @@ class Query:
             raise ValueError("Invalid response type. Choose 'gemma' or 'eeve'")
     
     def __generate_gemma_response(self, prompt):
-        inputs = "<bos><start_of_turn>user\n" + prompt
+        inputs = "<bos><start_of_turn>user\n" + prompt + "<end_of_turn> \n<start_of_turn>model"
         model_inputs = self.tokenizer(prompt, return_tensors='pt', padding = True).to("cuda")
         outputs      = self.model.generate(**model_inputs, max_new_tokens=self.max_new_tokens, pad_token_id=self.tokenizer.eos_token_id)
         output_text  = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
         return output_text
 
-
+    # def __generate_phi3_response(self, prompt):
+    #     inputs = 
+        
     def __generate_eeve_response(self, prompt):
         inputs = "User:\n" + prompt
         model_inputs = self.tokenizer(prompt, return_tensors='pt', padding = True).to("cuda")

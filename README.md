@@ -11,7 +11,19 @@ and KULLM-V2 from the Korea University NLP lab as the default settings.
 ```
 LLM-Finetuning-Tutorial/
     ├── dataset/
-	@@ -27,55 +25,29 @@ LLM-Finetuning-Tutorial/
+    │ ├── kullm-v2
+    ├── model/
+    │ ├── beomi-gemma-2b
+    ├── module/
+    │ ├── init.py
+    │ ├── configuration.py
+    │ ├── model.py
+    ├── scripts/
+    │ ├── requirements.sh
+    ├── run-evaluation.py
+    ├── run-inference.py
+    ├── run-training.py
+    ├── README.md
 ```
 
 ## Requirements
